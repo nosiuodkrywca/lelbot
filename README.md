@@ -1,0 +1,2 @@
+# lelbot
+Funny Discord bot 🔞
