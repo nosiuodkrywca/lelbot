@@ -1,6 +1,4 @@
-//const { promisify } = require('util');
 const fs = require('fs');
-//const readFileAsync = promisify(fs.readFile);
 
 const glob = require('glob');
 var module_dict = {};
@@ -15,7 +13,7 @@ glob.sync('./modules/**/*.js').forEach(function (file) {
     }
 });
 
-const { Client, Intents, MessageEmbed, Message } = require('discord.js');
+const { Client, Intents } = require('discord.js');
 
 const myIntents = new Intents();
 myIntents.add(Intents.FLAGS.GUILDS);
@@ -50,8 +48,6 @@ client.on('messageCreate', async message => {
 
     var prefix;
 
-    //console.log(message.content);
-
     if (message.content == '') return;
 
     if (message.guild) {
@@ -62,16 +58,9 @@ client.on('messageCreate', async message => {
                 .trim()
         );
 
-        //console.info(JSON.stringify(p));
         if (p['prefix'].hasOwnProperty(message.guild.id)) {
-            //console.info(pr['prefix'][message.guild.id]);
-
             prefix = p['prefix'][message.guild.id];
         } else prefix = 'lel.';
-
-        /*if(config.prefix.hasOwnProperty(message.guild.id))
-                    prefix = config.prefix[message.guild.id];
-                else prefix = 'lel.';*/
     } else prefix = 'lel.';
 
     const args = message.content

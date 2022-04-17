@@ -4,7 +4,7 @@ Funny Discord bot 🔞
 ## Deployment
 
 1. Create a `config.json` file in your project directory with your Discord token, for example:
-    ```javascript
+    ```
     {"token": "2Zx8Kwrf64SCXHbAoBFBp5RyEH544TRhNkzgbznMeS6Pj9ZhlqTH4rYMLp1"}
     ```
 
