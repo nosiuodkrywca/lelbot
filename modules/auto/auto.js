@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 auto = function (message, context) {
     if (context.match(/\*\*is\*\*/)) {
         fs.readFile(__dirname + "/autoresponder.json", (err, data) => {
