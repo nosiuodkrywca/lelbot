@@ -22,7 +22,7 @@ function covid(message, context) {
 
         req.headers({
             "x-rapidapi-host": "covid-19-data.p.rapidapi.com",
-            "x-rapidapi-key": "d2f5746fd3msh67138833b1dc186p1551a1jsna307db625aa3"
+            "x-rapidapi-key": ""
         });
 
         req.end(function (res) {
