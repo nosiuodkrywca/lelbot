@@ -46,6 +46,17 @@ client.once('ready', () => {
 
 client.on('messageCreate', async message => {
 
+    fs.readFile(__dirname + '/data/autoresponder.json', (err, data) => {
+        if (err) throw err;
+        let auto = JSON.parse(data.toString().trim());
+        if (!auto.hasOwnProperty(message.guild.id))
+            auto[message.guild.id] = {};
+        if (auto[message.guild.id].hasOwnProperty(message.content.toLowerCase())) {
+            message.channel.send(auto[message.guild.id][message.content.toLowerCase()]);
+            return;
+        }
+    });
+
     var prefix;
 
     if (message.content == '') return;
