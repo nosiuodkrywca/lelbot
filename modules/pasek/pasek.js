@@ -22,7 +22,7 @@ pasek = function (message, context) {
             } else {
                 console.log(response.headers);
                 fs.writeFile('./modules/pasek/pasek.jpg', body, 'binary', function () {
-                    message.channel.send({ files: ['./modules/pasek/pasek.jpg'] });
+                    message.channel.send({ files: ['./.temp/pasek.jpg'] });
                 });
             }
         }

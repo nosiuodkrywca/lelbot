@@ -42,10 +42,6 @@ function forecast(message, context) {
             .setTitle("Prognoza pogody dla miasta " + forecast["city"]["name"]);
 
         for (let k = 0; k < 5; k++) {
-            //console.log(symbols[forecast["list"][k]["weather"][0]["main"]]);
-            //console.log(forecast["list"][k]["weather"][0]["description"]);
-            //console.log(Math.floor(forecast["list"][k]["main"]["temp"]));
-            //console.log(forecast["list"][k]["dt_txt"].substr(11, 5));
 
             embed.addField(forecast["list"][k]["dt_txt"].substr(11, 5), symbols[forecast["list"][k]["weather"][0]["main"]] + " " + Math.floor(forecast["list"][k]["main"]["temp"]) + "°C - " + forecast["list"][k]["weather"][0]["description"], false);
         }
