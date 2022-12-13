@@ -15,14 +15,15 @@ jobs:
 
     steps:
     
+      - uses: actions/checkout@v3
+#      - name: Use Node.js ${{ matrix.node-version }}
+
       - name: create-json
         uses: jsdaniell/create-json@1.1.2
         with:
            name: "config.json"
            json: '{"token":"${{ secrets.DISCORD_TOKEN }}"}'
-    
-      - uses: actions/checkout@v3
-#      - name: Use Node.js ${{ matrix.node-version }}
+
       - uses: actions/setup-node@v3
 #        with:
 #          node-version: ${{ matrix.node-version }}
