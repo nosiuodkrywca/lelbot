@@ -1,4 +1,4 @@
-name: Node.js CI
+name: LelBot prod CD
 
 on:
   push:
@@ -21,12 +21,13 @@ jobs:
            name: "config.json"
            json: '{"token":"${{ secrets.DISCORD_TOKEN }}"}'
     
-#      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 #      - name: Use Node.js ${{ matrix.node-version }}
-#        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
 #        with:
 #          node-version: ${{ matrix.node-version }}
+      - run: npm install pm2@latest -g
       - run: npm install
 #      - run: npm run build --if-present
 #      - run: npm test
-      - run: pm2 restart index.js
+      - run: pm2 start index.js --watch -i max
