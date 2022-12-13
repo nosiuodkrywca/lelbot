@@ -25,8 +25,8 @@ jobs:
            json: '{"token":"${{ secrets.DISCORD_TOKEN }}"}'
 
       - uses: actions/setup-node@v3
-#        with:
-#          node-version: ${{ matrix.node-version }}
+        with:
+          node-version: 18
       - run: npm install pm2@latest -g
       - run: npm install
 #      - run: npm run build --if-present
