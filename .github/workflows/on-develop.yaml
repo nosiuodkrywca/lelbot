@@ -10,7 +10,7 @@ jobs:
   deploy:
 
     environment: dev
-    runs-on: self-hosted
+    runs-on: dev
     
     steps:
     
