@@ -84,7 +84,7 @@ client.on('messageCreate', async message => {
     const context = message.content.slice((prefix + command).length).trim();
 
 
-    if (command in module_dict) module_dict[command](message, context);
+    if ( message.content.startsWith(prefix) && command in module_dict) module_dict[command](message, context);
 
 
 });
