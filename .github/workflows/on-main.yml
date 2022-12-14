@@ -29,6 +29,9 @@ jobs:
       - run: npm install pm2@latest -g
       
       - run: npm install
-#     - run: npm run build --if-present
-#     - run: npm test
+      
+      ### hotfix, bug in glob
+      - run: npm install --save glob
+      ###
+      
       - run: RUNNER_TRACKING_ID="" && (nohup pm2 start index.js -i 1 -f&)
