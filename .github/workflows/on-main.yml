@@ -10,7 +10,7 @@ jobs:
   deploy:
 
     environment: prod
-    runs-on: self-hosted
+    runs-on: galileo
     
     steps:
     
