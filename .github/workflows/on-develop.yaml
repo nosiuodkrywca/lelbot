@@ -20,7 +20,7 @@ jobs:
         uses: jsdaniell/create-json@1.1.2
         with:
            name: "config.json"
-           json: '{"token":"${{ secrets.DISCORD_TOKEN }}"}'
+           json: '{"token":"${{ secrets.DISCORD_TOKEN }}", activity: { type: "${{ secrets.DISCORD_ACTIVITY_TYPE }}", name: "${{ secrets.DISCORD_ACTIVITY_NAME }}" }}'
 
 #      - uses: actions/setup-node@v3
 #        with:
