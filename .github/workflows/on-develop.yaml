@@ -1,0 +1,35 @@
+name: LelBot dev CI/CD
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  deploy:
+
+    environment: dev
+    runs-on: dev
+    
+    steps:
+    
+      - uses: actions/checkout@v3
+      
+      - name: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+           name: "config.json"
+           json: '{"token":"${{ secrets.DISCORD_TOKEN }}"}'
+
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: 18
+      
+#      - run: npm install pm2@latest -g
+      
+      - run: npm install
+#     - run: npm run build --if-present
+#     - run: npm test
+      - run: RUNNER_TRACKING_ID="" && (nohup pm2 start index.js -i 1 -f --name kekbot&)
+      - run: pm2 save
