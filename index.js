@@ -79,7 +79,7 @@ client.on('messageCreate', async message => {
                 .trim()
         );
 
-        if (p.hasOwnProperty(message.guild.id)) {
+        if (prefixes.hasOwnProperty(message.guild.id)) {
             prefix = prefixes[message.guild.id];
         } else prefix = 'lel.';
     } else prefix = 'lel.';
