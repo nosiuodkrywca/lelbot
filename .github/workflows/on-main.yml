@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
+  deploy_on_prod:
 
     environment: prod
     runs-on: galileo
@@ -34,6 +34,8 @@ jobs:
       - run: npm install --save glob
       ###
 
-      - run: pm2 delete lelbot
+      - run: pm2 delete lelbot 2> /dev/null || true
+
       - run: RUNNER_TRACKING_ID="lelbot_prod" && (nohup pm2 start index.js -i 1 -f --name lelbot&)
+
       - run: pm2 save
