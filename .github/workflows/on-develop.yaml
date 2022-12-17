@@ -1,4 +1,4 @@
-name: LelBot prod CI/CD
+name: LelBot dev CI/CD
 
 on:
   push:
