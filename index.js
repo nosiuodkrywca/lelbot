@@ -34,10 +34,8 @@ client.once('ready', () => {
 
     client.user.setPresence({
         status: 'active',
-        activities: [{ type: 'WATCHING', name: 'Mt Lady\'s giant coochie' }]
+        activities: [config["activity"]]
     });
-
-    let presenceTypes = ['Playing ', 'Streaming ', 'Listening ', 'Watching '];
 
     console.log('active');
 
