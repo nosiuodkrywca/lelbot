@@ -22,11 +22,11 @@ jobs:
            name: "config.json"
            json: '{"token":"${{ secrets.DISCORD_TOKEN }}"}'
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: 18
       
-      - run: npm install pm2@latest -g
+#      - run: npm install pm2@latest -g
       
       - run: npm install
       
@@ -34,6 +34,6 @@ jobs:
       - run: npm install --save glob
       ###
 
-      - run: pm2 delete lelbot 2> /dev/null
+      - run: pm2 delete lelbot
       - run: RUNNER_TRACKING_ID="lelbot_prod" && (nohup pm2 start index.js -i 1 -f --name lelbot&)
       - run: pm2 save
