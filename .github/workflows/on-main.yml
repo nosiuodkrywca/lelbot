@@ -34,5 +34,6 @@ jobs:
       - run: npm install --save glob
       ###
 
-      - run: RUNNER_TRACKING_ID="" && (nohup pm2 start index.js -i 1 -f&)
+      - run: pm2 delete lelbot 2> /dev/null
+      - run: RUNNER_TRACKING_ID="lelbot_prod" && (nohup pm2 start index.js -i 1 -f --name lelbot&)
       - run: pm2 save
