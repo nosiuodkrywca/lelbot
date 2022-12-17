@@ -5,6 +5,8 @@ const glob = require('glob');
 // check if LELBOT_DATA_DIR env variable exists, if not, create data dir in user home directory
 const data_dir = (typeof process.env.LELBOT_DATA_DIR != "undefined" ? process.env.ENV_VARIABLE : process.env.HOME+'/lelbot_data' );
 
+
+
 // create data dir if not exists
 (async (data_dir) => {
 
@@ -109,3 +111,8 @@ client.on('messageCreate', async message => {
 
 
 client.login(config.token).catch(console.log);
+
+
+module.exports = {
+    data_dir: data_dir
+};

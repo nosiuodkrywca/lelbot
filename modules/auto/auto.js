@@ -1,6 +1,7 @@
-const fs = require('fs')
+const fs = require('fs');
+const { data_dir } = require('../..');
 
-autoresponder_file = __dirname + "/../../data/autoresponder.json";
+autoresponder_file = data_dir+"/autoresponder.json";
 
 auto = function (message, context) {
     if (context.match(/\*\*is\*\*/)) {
