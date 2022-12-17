@@ -10,15 +10,17 @@ if (!fs.existsSync(data_dir)){
     fs.mkdirSync(data_dir);
 }
 
-fs.writeFile(data_dir + '/prefixes.json', '{}', { flag: 'wx' }, function (err) {
-    if (err) throw err;
-    console.log("It's saved!");
-});
+try {
+    await fs.truncateSync(data_dir + '/prefixes.json', 0);
+} catch (err) {
+    await fs.writeFileSync(filepath, "{}", { flag: "wx" });
+}
 
-fs.writeFile(data_dir + '/autoresponder.json', '{}', { flag: 'wx' }, function (err) {
-    if (err) throw err;
-    console.log("It's saved!");
-});
+try {
+    await fs.truncateSync(data_dir + '/autoresponder.json', 0);
+} catch (err) {
+    await fs.writeFileSync(filepath, "{}", { flag: "wx" });
+}
 // end
 
 var module_dict = {};
