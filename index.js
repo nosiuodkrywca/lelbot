@@ -66,7 +66,7 @@ client.once('ready', () => {
 
 client.on('messageCreate', async message => {
 
-    fs.readFile(__dirname + '/data/autoresponder.json', (err, data) => {
+    fs.readFile(data_dir + '/autoresponder.json', (err, data) => {
         if (err) throw err;
         let auto = JSON.parse(data.toString().trim());
         if (!auto.hasOwnProperty(message.guild.id))
@@ -82,15 +82,15 @@ client.on('messageCreate', async message => {
     if (message.content == '') return;
 
     if (message.guild) {
-        let p = JSON.parse(
+        let prefixes = JSON.parse(
             fs
-                .readFileSync(__dirname + '/data/prefixes.json')
+                .readFileSync(data_dir + '/prefixes.json')
                 .toString()
                 .trim()
         );
 
         if (p.hasOwnProperty(message.guild.id)) {
-            prefix = p[message.guild.id];
+            prefix = prefixes[message.guild.id];
         } else prefix = 'lel.';
     } else prefix = 'lel.';
 
