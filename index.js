@@ -6,7 +6,7 @@ const glob = require('glob');
 const data_dir = (typeof process.env.LELBOT_DATA_DIR != "undefined" ? process.env.ENV_VARIABLE : process.env.HOME+'/lelbot_data' );
 
 
-export { data_dir };
+module.exports = data_dir;
 
 
 // create data dir if not exists
