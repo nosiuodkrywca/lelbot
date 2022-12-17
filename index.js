@@ -6,6 +6,10 @@ const glob = require('glob');
 const data_dir = (typeof process.env.LELBOT_DATA_DIR != "undefined" ? process.env.ENV_VARIABLE : process.env.HOME+'/lelbot_data' );
 
 
+import { datadir_check } from './func/first_run';
+
+datadir_check(data_dir);
+
 module.exports = {
     data_dir
 }
@@ -42,6 +46,7 @@ myIntents.add(Intents.FLAGS.DIRECT_MESSAGES);
 
 const client = new Client({ intents: myIntents });
 const config = require('./config.json');
+const { datadir_check } = require('./func/first_run');
 
 client.once('ready', () => {
 
