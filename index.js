@@ -1,6 +1,25 @@
 const fs = require('fs');
 
 const glob = require('glob');
+
+// check if LELBOT_DATA_DIR env variable exists, if not, create data dir in user home directory
+const data_dir = (typeof process.env.LELBOT_DATA_DIR != "undefined" ? process.env.ENV_VARIABLE : process.env.HOME+'/lelbot_data' );
+
+
+module.exports = {
+    data_dir
+}
+
+// create data dir if not exists
+
+if (!fs.existsSync(data_dir)){
+    fs.mkdirSync(data_dir);
+    fs.writeFileSync(data_dir + '/prefixes.json', "{}", { flag: "wx" });
+    fs.writeFileSync(data_dir + '/autoresponder.json', "{}", { flag: "wx" });
+}
+
+// end
+
 var module_dict = {};
 glob.sync('./modules/**/*.js').forEach(function (file) {
     let dash = file.split('/');
@@ -24,20 +43,12 @@ myIntents.add(Intents.FLAGS.DIRECT_MESSAGES);
 const client = new Client({ intents: myIntents });
 const config = require('./config.json');
 
-const attr = {
-    execmode: false,
-    execmsg: false,
-    execuser: false
-};
-
 client.once('ready', () => {
 
     client.user.setPresence({
         status: 'active',
-        activities: [{ type: 'WATCHING', name: 'Mt Lady\'s giant coochie' }]
+        activities: [config["activity"]]
     });
-
-    let presenceTypes = ['Playing ', 'Streaming ', 'Listening ', 'Watching '];
 
     console.log('active');
 
@@ -46,7 +57,7 @@ client.once('ready', () => {
 
 client.on('messageCreate', async message => {
 
-    fs.readFile(__dirname + '/data/autoresponder.json', (err, data) => {
+    fs.readFile(data_dir + '/autoresponder.json', (err, data) => {
         if (err) throw err;
         let auto = JSON.parse(data.toString().trim());
         if (!auto.hasOwnProperty(message.guild.id))
@@ -62,15 +73,15 @@ client.on('messageCreate', async message => {
     if (message.content == '') return;
 
     if (message.guild) {
-        let p = JSON.parse(
+        let prefixes = JSON.parse(
             fs
-                .readFileSync(__dirname + '/data/prefixes.json')
+                .readFileSync(data_dir + '/prefixes.json')
                 .toString()
                 .trim()
         );
 
-        if (p['prefix'].hasOwnProperty(message.guild.id)) {
-            prefix = p['prefix'][message.guild.id];
+        if (prefixes.hasOwnProperty(message.guild.id)) {
+            prefix = prefixes[message.guild.id];
         } else prefix = 'lel.';
     } else prefix = 'lel.';
 
@@ -91,3 +102,8 @@ client.on('messageCreate', async message => {
 
 
 client.login(config.token).catch(console.log);
+
+
+module.exports = {
+    data_dir: data_dir
+};
