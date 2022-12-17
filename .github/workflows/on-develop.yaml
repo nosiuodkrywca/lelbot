@@ -2,15 +2,15 @@ name: LelBot prod CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ develop ]
 
 jobs:
   deploy_on_prod:
 
-    environment: prod
-    runs-on: galileo
+    environment: dev
+    runs-on: newton
     
     steps:
     
