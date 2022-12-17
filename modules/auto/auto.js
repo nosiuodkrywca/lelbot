@@ -1,8 +1,10 @@
 const fs = require('fs')
 
+autoresponder_file = __dirname + "../../data/autoresponder.json";
+
 auto = function (message, context) {
     if (context.match(/\*\*is\*\*/)) {
-        fs.readFile(__dirname + "../../data/autoresponder.json", (err, data) => {
+        fs.readFile(autoresponder_file, (err, data) => {
             if (err) throw err;
             let auto = JSON.parse(data.toString().trim());
             let na = context
@@ -17,7 +19,7 @@ auto = function (message, context) {
             } else {
                 auto[message.guild.id][na[0].trim()] = na[1].trim();
                 fs.writeFile(
-                    __dirname + "../../data/autoresponder.json",
+                    autoresponder_file,
                     JSON.stringify(auto),
                     function (e) {
                         message.channel.send(`${na[0]}: **${na[1]}**`);
