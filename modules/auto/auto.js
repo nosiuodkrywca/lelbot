@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { data_dir } = require('../..');
+const data_dir = require('../..');
 
 autoresponder_file = data_dir+"/autoresponder.json";
 
