@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy_on_prod:
+  deploy:
 
     environment: prod
     runs-on: galileo
