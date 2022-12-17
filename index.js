@@ -1,6 +1,25 @@
 const fs = require('fs');
 
 const glob = require('glob');
+
+const data_dir = './data';
+
+// create data dir if not exists
+if (!fs.existsSync(data_dir)){
+    fs.mkdirSync(data_dir);
+}
+
+fs.writeFile(data_dir + '/prefixes.json', '{}', { flag: 'wx' }, function (err) {
+    if (err) throw err;
+    console.log("It's saved!");
+});
+
+fs.writeFile(data_dir + '/autoresponder.json', '{}', { flag: 'wx' }, function (err) {
+    if (err) throw err;
+    console.log("It's saved!");
+});
+// end
+
 var module_dict = {};
 glob.sync('./modules/**/*.js').forEach(function (file) {
     let dash = file.split('/');
@@ -23,12 +42,6 @@ myIntents.add(Intents.FLAGS.DIRECT_MESSAGES);
 
 const client = new Client({ intents: myIntents });
 const config = require('./config.json');
-
-const attr = {
-    execmode: false,
-    execmsg: false,
-    execuser: false
-};
 
 client.once('ready', () => {
 
@@ -67,8 +80,8 @@ client.on('messageCreate', async message => {
                 .trim()
         );
 
-        if (p['prefix'].hasOwnProperty(message.guild.id)) {
-            prefix = p['prefix'][message.guild.id];
+        if (p.hasOwnProperty(message.guild.id)) {
+            prefix = p[message.guild.id];
         } else prefix = 'lel.';
     } else prefix = 'lel.';
 
