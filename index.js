@@ -6,21 +6,25 @@ const glob = require('glob');
 const data_dir = (typeof process.env.LELBOT_DATA_DIR != "undefined" ? process.env.ENV_VARIABLE : process.env.HOME+'/lelbot_data' );
 
 // create data dir if not exists
-if (!fs.existsSync(data_dir)){
-    fs.mkdirSync(data_dir);
-}
+(async (data_dir) => {
 
-try {
-    await fs.truncateSync(data_dir + '/prefixes.json', 0);
-} catch (err) {
-    await fs.writeFileSync(filepath, "{}", { flag: "wx" });
-}
+    if (!fs.existsSync(data_dir)){
+        fs.mkdirSync(data_dir);
+    }
 
-try {
-    await fs.truncateSync(data_dir + '/autoresponder.json', 0);
-} catch (err) {
-    await fs.writeFileSync(filepath, "{}", { flag: "wx" });
-}
+    try {
+        await fs.truncateSync(data_dir + '/prefixes.json', 0);
+    } catch (err) {
+        await fs.writeFileSync(filepath, "{}", { flag: "wx" });
+    }
+
+    try {
+        await fs.truncateSync(data_dir + '/autoresponder.json', 0);
+    } catch (err) {
+        await fs.writeFileSync(filepath, "{}", { flag: "wx" });
+    }
+
+})(data_dir);
 // end
 
 var module_dict = {};
