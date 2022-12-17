@@ -5,7 +5,6 @@ const glob = require('glob');
 // check if LELBOT_DATA_DIR env variable exists, if not, create data dir in user home directory
 const data_dir = (typeof process.env.LELBOT_DATA_DIR != "undefined" ? process.env.ENV_VARIABLE : process.env.HOME+'/lelbot_data' );
 
-
 module.exports = {
     data_dir
 }
@@ -42,6 +41,7 @@ myIntents.add(Intents.FLAGS.DIRECT_MESSAGES);
 
 const client = new Client({ intents: myIntents });
 const config = require('./config.json');
+const { datadir_check } = require('./func/first_run');
 
 client.once('ready', () => {
 
