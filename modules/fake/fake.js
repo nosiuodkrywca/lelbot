@@ -1,4 +1,5 @@
 const webshot = require('node-webshot');
+import captureWebsite from 'capture-website';
 const fs = require('fs');
 const { data_dir } = require('../..');
 
@@ -58,12 +59,18 @@ fake = async function (message, context) {
     if (context.match(/\+metal/)) req += "&metal";
 
     try {
-        webshot(req, data_dir+"/temp/fake.png", options, function (err) {
+        /*webshot(req, data_dir+"/temp/fake.png", options, function (err) {
             if (!err) {
                 message.channel.send({ files: [data_dir+"/temp/fake.png"] });
                 if (message.guild) message.delete();
             }
-        });
+        });*/
+        
+        await captureWebsite.file(req, data_dir+"/temp/fake.png");
+        
+        message.channel.send({ files: [data_dir+"/temp/fake.png"] });
+        if (message.guild) message.delete();
+
     } catch (e) { console.log(e); }
 }
 
