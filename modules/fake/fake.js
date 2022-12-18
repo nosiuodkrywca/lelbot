@@ -1,5 +1,6 @@
 const webshot = require('node-webshot');
 const fs = require('fs');
+const { data_dir } = require('../..');
 
 fake = async function (message, context) {
     let options = { captureSelector: "#msg" };
@@ -57,9 +58,9 @@ fake = async function (message, context) {
     if (context.match(/\+metal/)) req += "&metal";
 
     try {
-        webshot(req, "./modules/fake/temp.png", options, function (err) {
+        webshot(req, data_dir+"/temp/fake.png", options, function (err) {
             if (!err) {
-                message.channel.send({ files: ["./modules/fake/temp.png"] });
+                message.channel.send({ files: [data_dir+"/temp/fake.png"] });
                 if (message.guild) message.delete();
             }
         });
