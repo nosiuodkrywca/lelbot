@@ -1,6 +1,18 @@
-function covid(message, context) {
+const lang = require('../../builtin/lang');
 
-    message.channel.send("Deprecated - global COVID API is dead");
+covid = (message, context) => {
+
+    try {
+        throw("Module deprecated because the COVID API is no longer available.");
+    } catch(e) {
+        message.reply(lang.error(e)).then((reply)=>{
+            setTimeout(() => {
+                reply.delete();
+                if(message.guild) message.delete();
+            }, e.length*150);
+        });
+    }
+    
 
     /* if (message.content.startsWith("👑")) {
         //korona

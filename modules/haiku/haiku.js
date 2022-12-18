@@ -1,5 +1,20 @@
-haiku = function (message, context) {
-    if (message.channel.id != "665993270769221648") return;
+const lang = require('../../builtin/lang');
+
+haiku = (message, context) => {
+
+    try {
+        throw("Module deprecated because of a change in Discord message API. The module is going to be rewritten to use logs to generate haikus.");
+    } catch(e) {
+        message.reply(lang.error(e)).then((reply)=>{
+            setTimeout(() => {
+                reply.delete();
+                if(message.guild) message.delete();
+            }, e.length*150);
+        });
+    }
+
+
+    /*if (message.channel.id != "665993270769221648") return;
     if (message.mentions.channels.first()) {
         let ch = message.mentions.channels.first();
     } else {
@@ -121,7 +136,7 @@ function syllables(word, lang = "pl") {
         match = word.match(/[aąeęioóuy]{1,2}/g);
     }
 
-    return match != null ? match.length : 0;
+    return match != null ? match.length : 0; */
 }
 
 module.exports = haiku;

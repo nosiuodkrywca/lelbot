@@ -2,7 +2,7 @@
     "name": "lelbot",
     "version": "0.0.1",
     "description": "Trust me it's funny",
-    "main": "node index.js",
+    "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node index.js"
@@ -17,23 +17,23 @@
     "author": "nosiuodkrywca",
     "license": "ISC",
     "bugs": {
-        "url": "http://example.com"
+        "url": "https://nosiu.pl"
     },
     "homepage": "",
     "dependencies": {
-        "glob": "^8.0.1",
-        "capture-website": "^2.3.0",
+        "puppeteer": "^19.4.1",
         "country-emoji": "^1.5.3",
         "delay": "^5.0.0",
         "discord.js": "^13.6.0",
         "enmap": "^5.9.0",
         "express": "^4.15.5",
+        "glob": "^8.0.1",
         "jimp": "^0.16.1",
         "moment": "^2.18.1",
         "moment-duration-format": "^2.3.2",
         "ms": "^2.1.2",
         "node-schedule": "^2.1.0",
-        "node-webshot": "^1.0.4",
+        "pageres": "^7.1.0",
         "poem-gen": "^0.3.0",
         "request": "^2.88.0",
         "unirest": "^0.6.0"
