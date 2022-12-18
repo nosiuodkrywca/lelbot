@@ -41,7 +41,6 @@ myIntents.add(Intents.FLAGS.DIRECT_MESSAGES);
 
 const client = new Client({ intents: myIntents });
 const config = require('./config.json');
-const { datadir_check } = require('./func/first_run');
 
 client.once('ready', () => {
 
