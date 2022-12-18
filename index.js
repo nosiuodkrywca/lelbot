@@ -11,18 +11,17 @@ module.exports = {
 
 // create data dir if not exists
 
-if (!fs.existsSync(data_dir)){
+if (!fs.existsSync(data_dir))
     fs.mkdirSync(data_dir);
 
-    if (!fs.existsSync(data_dir+"/prefixes.json"))
-        fs.writeFileSync(data_dir + '/prefixes.json', "{}", { flag: "wx" });
+if (!fs.existsSync(data_dir+"/prefixes.json"))
+    fs.writeFileSync(data_dir + '/prefixes.json', "{}", { flag: "wx" });
 
-    if (!fs.existsSync(data_dir+"/autoresponder.json"))
-        fs.writeFileSync(data_dir + '/autoresponder.json', "{}", { flag: "wx" });
+if (!fs.existsSync(data_dir+"/autoresponder.json"))
+    fs.writeFileSync(data_dir + '/autoresponder.json', "{}", { flag: "wx" });
 
-    if (!fs.existsSync(data_dir+"/temp"))
-        fs.mkdirSync(data_dir+"/temp");
-}
+if (!fs.existsSync(data_dir+"/temp"))
+    fs.mkdirSync(data_dir+"/temp");
 
 // end
 
