@@ -1,5 +1,5 @@
 const webshot = require('node-webshot');
-import captureWebsite from 'capture-website';
+const { captureWebsite } = require('capture-website');
 const fs = require('fs');
 const { data_dir } = require('../..');
 
