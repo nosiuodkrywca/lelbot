@@ -20,7 +20,7 @@ jobs:
         uses: jsdaniell/create-json@1.1.2
         with:
            name: "config.json"
-           json: '{"token": "${{ secrets.DISCORD_TOKEN }}", "activity": { "type": "${{ secrets.DISCORD_ACTIVITY_TYPE }}", "name": "${{ secrets.DISCORD_ACTIVITY_NAME }}" }}'
+           json: '{"token": "${{ secrets.DISCORD_TOKEN }}", "clientId": "${{ secrets.DISCORD_APP_ID }}", "guildId": "${{ secrets.DISCORD_DEV_GUILD_ID }}"}'
 
 #      - uses: actions/setup-node@v3
 #        with:
@@ -36,6 +36,8 @@ jobs:
 
       - run: pm2 delete ${{ secrets.BOT_DEPLOYMENT_NAME }} 2> /dev/null || true
 
-      - run: RUNNER_TRACKING_ID="${{ secrets.BOT_DEPLOYMENT_NAME }}" && (nohup pm2 start index.js -i 1 -f --name ${{ secrets.BOT_DEPLOYMENT_NAME }}&)
+      - run: node deploy-commands.js 2> /dev/null || true
+
+      - run: RUNNER_TRACKING_ID="${{ secrets.BOT_DEPLOYMENT_NAME }}" && (nohup pm2 start index.js --node-args="--status ${{ secrets.DISCORD_STATUS }} --activity-type ${{ secrets.DISCORD_ACTIVITY_TYPE }} --activity-name '${{ secrets.DISCORD_ACTIVITY_NAME }}'" -i 1 -f --name ${{ secrets.BOT_DEPLOYMENT_NAME }}&)
 
       - run: pm2 save

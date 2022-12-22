@@ -1,13 +1,21 @@
-const fs = require('fs');
-
+const fs = require('node:fs');
+const path = require('node:path');
 const glob = require('glob');
+const argv = require('minimist')(process.argv.slice(2));
+
+
+const { Client, Collection, Events, GatewayIntentBits, Partials, ActivityType } = require('discord.js');
+
+const { token } = require('./config.json');
+
+
+
 
 // check if LELBOT_DATA_DIR env variable exists, if not, create data dir in user home directory
 const data_dir = (typeof process.env.LELBOT_DATA_DIR != "undefined" ? process.env.ENV_VARIABLE : process.env.HOME+'/lelbot_data' );
-
 module.exports = {
-    data_dir
-}
+    data_dir: data_dir
+};
 
 // create data dir if not exists
 
@@ -31,34 +39,148 @@ glob.sync('./modules/**/*.js').forEach(function (file) {
     if (dash.length == 4) {
         let dot = dash[3].split('.');
         if (dot.length == 2 && dash[2] == dot[0]) {
+            console.log(`imported ${dot[0]} from ${dash[2]}`);
             let key = dot[0];
             module_dict[key] = require(file);
         }
     }
 });
 
-const { Client, Intents } = require('discord.js');
 
-const myIntents = new Intents();
-myIntents.add(Intents.FLAGS.GUILDS);
-myIntents.add(Intents.FLAGS.GUILD_MESSAGES);
-myIntents.add(Intents.FLAGS.GUILD_MEMBERS);
-myIntents.add(Intents.FLAGS.DIRECT_MESSAGES);
 
-const client = new Client({ intents: myIntents });
-const config = require('./config.json');
+//const myIntents = new Intents();
+//myIntents.add(Intents.FLAGS.GUILDS);
+//myIntents.add(Intents.FLAGS.GUILD_MESSAGES);
+//myIntents.add(Intents.FLAGS.GUILD_MEMBERS);
+//myIntents.add(Intents.FLAGS.DIRECT_MESSAGES);
+
+const intents = [];
+intents.push(GatewayIntentBits.Guilds);
+intents.push(GatewayIntentBits.GuildMessages);
+intents.push(GatewayIntentBits.GuildMessageReactions);
+intents.push(GatewayIntentBits.GuildMembers);
+intents.push(GatewayIntentBits.DirectMessages);
+
+const partials = [];
+partials.push(Partials.Channel);
+
+const client = new Client({ intents, partials });
+
+client.commands = new Collection();
+
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+	// Set a new item in the Collection with the key as the command name and the value as the exported module
+	if ('data' in command && 'execute' in command) {
+		client.commands.set(command.data.name, command);
+	} else {
+		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+	}
+}
+
+
+/*
+ *               _   _       _ _         
+ *     /\       | | (_)     (_) |        
+ *    /  \   ___| |_ ___   ___| |_ _   _ 
+ *   / /\ \ / __| __| \ \ / / | __| | | |
+ *  / ____ \ (__| |_| |\ V /| | |_| |_| |
+ * /_/    \_\___|\__|_| \_/ |_|\__|\__, |
+ *                                  __/ |
+ *                                 |___/ 
+ */
 
 client.once('ready', () => {
 
+    /*let type = (()=>{
+        switch(argv['activity-type'].toLowerCase()) {
+            case 'playing':
+                return ActivityType.Playing;
+                // returns 0
+            case 'streaming':
+                return ActivityType.Streaming;
+                // returns 1
+            case 'listening':
+                return ActivityType.Listening;
+                // returns 2
+            case 'watching':
+                return ActivityType.Watching;
+                // returns 3
+            case 'custom':
+                return ActivityType.Custom;
+                // returns 4
+            case 'competing':
+                return ActivityType.Competing;
+                // returns 5
+            default:
+                return ActivityType.Playing;
+                // returns 0
+        }
+    })();*/
+
+    let type = (()=>{
+        const key = argv['activity-type'][0].toUpperCase() + argv['activity-type'].toLowerCase().substr(1);
+        return ActivityType[key] ?? ActivityType.Playing;
+    })();
+
+    let status = ['online', 'idle', 'invisible', 'dnd'].includes(argv['status']) ? argv['status'] : 'online' || 'online';
+
+    let name = argv['activity-name'] || 'lel.help';
+
     client.user.setPresence({
-        status: 'active',
-        activities: [config["activity"]]
+        status,
+        activities: [{type, name}]
     });
 
-    console.log('active');
+    console.log(`active with status: ${status}`);
 
 });
 
+
+/*
+ *  _____       _                      _   _                 
+ * |_   _|     | |                    | | (_)                
+ *   | |  _ __ | |_ ___ _ __ __ _  ___| |_ _  ___  _ __  ___ 
+ *   | | | '_ \| __/ _ \ '__/ _` |/ __| __| |/ _ \| '_ \/ __|
+ *  _| |_| | | | ||  __/ | | (_| | (__| |_| | (_) | | | \__ \
+ * |_____|_| |_|\__\___|_|  \__,_|\___|\__|_|\___/|_| |_|___/
+ * 
+ */                                                          
+                                                          
+client.on(Events.InteractionCreate, async interaction => {
+	if (!interaction.isChatInputCommand()) return;
+
+	const command = interaction.client.commands.get(interaction.commandName);
+
+	if (!command) {
+		console.error(`No command matching ${interaction.commandName} was found.`);
+		return;
+	}
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+	}
+});
+
+
+
+/*
+ *  __  __                                     
+ * |  \/  |                                    
+ * | \  / | ___  ___ ___  __ _  __ _  ___  ___ 
+ * | |\/| |/ _ \/ __/ __|/ _` |/ _` |/ _ \/ __|
+ * | |  | |  __/\__ \__ \ (_| | (_| |  __/\__ \
+ * |_|  |_|\___||___/___/\__,_|\__, |\___||___/
+ *                              __/ |          
+ *                             |___/
+ */
 
 client.on('messageCreate', async message => {
 
@@ -105,10 +227,17 @@ client.on('messageCreate', async message => {
 
 });
 
+/*
+ *  _                 _       
+ * | |               (_)      
+ * | |     ___   __ _ _ _ __  
+ * | |    / _ \ / _` | | '_ \ 
+ * | |___| (_) | (_| | | | | |
+ * |______\___/ \__, |_|_| |_|
+ *               __/ |        
+ *              |___/         
+ */
 
-client.login(config.token).catch(console.log);
+client.login(token).catch(console.log);
 
 
-module.exports = {
-    data_dir: data_dir
-};
