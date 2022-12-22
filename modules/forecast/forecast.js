@@ -43,7 +43,7 @@ function forecast(message, context) {
 
         for (let k = 0; k < 5; k++) {
 
-            embed.addField(forecast["list"][k]["dt_txt"].substr(11, 5), symbols[forecast["list"][k]["weather"][0]["main"]] + " " + Math.floor(forecast["list"][k]["main"]["temp"]) + "°C - " + forecast["list"][k]["weather"][0]["description"], false);
+            embed.addFields([forecast["list"][k]["dt_txt"].substr(11, 5), symbols[forecast["list"][k]["weather"][0]["main"]] + " " + Math.floor(forecast["list"][k]["main"]["temp"]) + "°C - " + forecast["list"][k]["weather"][0]["description"]], false);
         }
         embed.addField("Szczegółowa prognoza", "[OpenWeatherMap](https://openweathermap.org/city/" + forecast["city"]["id"] + ")", false);
         message.channel.send({ embeds: [embed] });
